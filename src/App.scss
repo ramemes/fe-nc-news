@@ -44,7 +44,6 @@ body{
     flex-direction: column;
     flex-wrap: wrap;
     gap: 20px;
-    max-width: 60vw;
 
     @media only screen and (max-width: 500px) {
         .card-image {
