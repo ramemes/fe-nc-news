@@ -1,16 +1,17 @@
 import ArticleCard from "./ArticleCard"
 
+
 const ArticleList = (props) => {
     const {articles} = props
+    
     return (
-        <div className="article-list">
+        <div key="article-list" className="article-list">
             {articles.map((article) => {
-                return (
+                return (  
                     <ArticleCard key={article.article_id} article={article}/>
                 )
             })}
         </div>
-
     )
 }   
 

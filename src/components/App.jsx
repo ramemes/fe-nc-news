@@ -1,6 +1,8 @@
-import { useState, useEffect, useContext } from 'react'
-import { Routes, Route, Link } from 'react-router-dom';
+import { useState, useEffect, useContext, useMemo } from 'react'
+import { Routes, Route, Link, useNavigate} from 'react-router-dom';
 
+import '../App.scss';
+import newsApi from '../utils/api';
 
 import { UserContext } from '../contexts/UserContext';
 import { ThemeContext } from '../contexts/ThemeContext';
@@ -12,9 +14,9 @@ import Profile from './Profile';
 import Login from './Login';
 import ArticleList from './ArticleList';
 
-import '../App.scss';
+import ArticlePage from './ArticlePage';
+import HomePage from './HomePage';
 
-import newsApi from '../utils/api';
 
 
 function App() {
@@ -25,24 +27,27 @@ function App() {
   const {loggedInUser, setLoggedInUser} = useContext(UserContext)
   const {darkMode, setDarkMode} = useContext(ThemeContext) 
 
+  const navigate = useNavigate()
 
   useEffect(() => {
-    newsApi.get(`/articles`)
+    newsApi(`/articles`)
     .then(({data}) => {
-      console.log(data)
       setArticles(data.articles)
       setArticlesLoaded(true)
     })
     .catch((err)=>{
-      console.log(err)
+      window.alert(err.message)
     })
+    loggedInUser ?  navigate(`/articles`) : null
   }, [])
 
   return (
     <>
       <Nav/>
       <Routes>
-        <Route path='/' element={
+      <Route path='/' element={<HomePage/>}/>
+
+        <Route path='/articles' element={
           <>
             <SearchBar />
             {articlesLoaded ? <ArticleList articles={articles}/> : 
@@ -52,8 +57,9 @@ function App() {
           </>
         }/>
         <Route path='/profile' element={<Profile/>}/>
-        <Route path='/login' element={<Login/>}
-          />
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/articles/:article_id' element={<ArticlePage/>}/>
+        
       </Routes>
 
     </>

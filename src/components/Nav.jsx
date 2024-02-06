@@ -12,7 +12,7 @@ const Nav = () => {
     return (
         <nav className="nav-bar">
             <Link to="/">Home</Link>
-
+            <Link to="/articles">Articles</Link>
             {loggedInUser ? 
                 <Link to="/profile">
                     <div className="nav-user">
