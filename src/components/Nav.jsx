@@ -11,10 +11,10 @@ const Nav = () => {
 
     return (
         <nav className="nav-bar">
-            <Link to="/">Home</Link>
-            <Link to="/articles">Articles</Link>
+            <Link className="nav-link" to="/">Home</Link>
+            <Link className="nav-link"  to="/articles">Articles</Link>
             {loggedInUser ? 
-                <Link to="/profile">
+                <Link  to="/profile">
                     <div className="nav-user">
                         <div className="nav-user-avatar-cropper">
                             <img className="nav-user-avatar" src={loggedInUser.avatar_url}/>
@@ -22,7 +22,7 @@ const Nav = () => {
                     </div>
                 </Link> 
                 : 
-                <Link to="/login" >Login</Link>
+                <Link className="nav-link"  to="/login" >Login</Link>
             }
             
             
