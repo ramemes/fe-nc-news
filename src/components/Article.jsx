@@ -12,13 +12,20 @@ import { UserContext } from "../contexts/UserContext";
 
 
 const Article = (props) => {
-  const {article} = props
+
+  const {article, setArticledChanged} = props
   const {loggedInUser, setLoggedInUser} = useContext(UserContext)
   const [votes, setVotes] = useState(article.votes)
   const voteKey = `alreadyVoted${article.article_id}${loggedInUser.username}`
   const [alreadyVoted, setAlreadyVoted] = useState(!!localStorage.getItem(voteKey))
   
   //mimic user with localStorage
+
+  const handleCommentForm = (e) => {
+    e.preventDefault()
+
+  }
+
   const handleVotes = (e) => {
     e.preventDefault()
     const alreadyVoted = localStorage.getItem(voteKey)
@@ -34,6 +41,11 @@ const Article = (props) => {
 
     newsApi.patch(`/articles/${article.article_id}`,{
       inc_votes: upVote ? 1 : -1
+    })
+    .then(() => {
+      setArticledChanged((articleChanged) => {
+        return !articleChanged
+      })
     })
     .catch((err) => {
       console.log(err)
@@ -61,7 +73,7 @@ const Article = (props) => {
 
           <div className="article-comment-votes">
 
-            <div className="article-comment-count" >
+            <div onClick={handleCommentForm} className="article-comment-count" >
               <Tooltip title="Post a comment" placement="top">
                 <IconButton>
                   <CommentIcon />

@@ -15,7 +15,7 @@ const ArticleCard = (props) => {
 
     const openArticle = (e) => {
         e.preventDefault()
-        navigate(`/articles/${article.article_id}`)
+        navigate(`/${article.article_id}`)
 
     }
 

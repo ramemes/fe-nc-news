@@ -158,6 +158,18 @@ body {
     }
 }
 
+.comment-adder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    gap: 20px;
+    width: 700px;
+    max-width: 80vw;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 20px; 
+}
 
 .article {
     
