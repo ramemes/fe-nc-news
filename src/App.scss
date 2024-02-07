@@ -172,28 +172,35 @@ body {
     width: 700px;
     max-width: 80vw;
 
+    .article-author-date-comment-votes {
+        .article-author-date {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            // .article-author{
+            // }
+            // .article-date {
+            // }
+        }
+    
+        .article-comment-votes{
+            display: flex;
+            gap: 5px;
+            // .article-comment-count {
+    
+            // }
+    
+            // .article-votes {
+    
+            // }
 
-    .article-author-date {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        // .article-author{
-        // }
-        // .article-date {
-        // }
+            .voted {
+                color: rgb(0, 0, 255);
+            }
+        }
     }
 
-    .article-comment-votes{
-        display: flex;
-        gap: 5px;
-        // .article-comment-count {
 
-        // }
-
-        // .article-votes {
-
-        // }
-    }
 
     
     .article-body {
