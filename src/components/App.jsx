@@ -18,7 +18,6 @@ import ArticlePage from './ArticlePage';
 import HomePage from './HomePage';
 
 
-
 function App() {
 
   const [articles, setArticles] = useState([])
