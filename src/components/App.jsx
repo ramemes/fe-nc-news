@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useMemo } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Routes, Route, Link, useNavigate} from 'react-router-dom';
 
 import '../App.scss';
@@ -36,7 +36,7 @@ function App() {
       setArticlesLoaded(true)
     })
     .catch((err)=>{
-      window.alert(err.message)
+      console.log(err.message)
     })
     loggedInUser ?  navigate(`/articles`) : null
   }, [])
