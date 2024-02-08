@@ -4,6 +4,7 @@ import { UserContext } from '../contexts/UserContext';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { Button } from '@mui/material';
 
 import axios from 'axios'
 import newsApi from '../utils/api';
@@ -53,7 +54,7 @@ const CommentAdder = (props) => {
           multiline
           rows={4}
         />
-        <button disabled={commentIsPosting}>Post Comment</button>
+        <Button disabled={commentIsPosting}>Post Comment</Button>
     </Box>
   )
 }
