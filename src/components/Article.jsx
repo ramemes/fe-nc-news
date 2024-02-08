@@ -48,7 +48,8 @@ const Article = (props) => {
       })
     })
     .catch((err) => {
-      console.log(err)
+      window.alert(`vote failed, ${err}`)
+
       setVotes((votes) => {
         return upVote ? Math.max(votes - 1, 0) : Math.max(votes + 1, 0)
       })

@@ -21,7 +21,7 @@ const CommentAdder = (props) => {
     e.preventDefault()
     setCommentIsPosting(true)
     newsApi.post(`/articles/${article_id}/comments`, {
-      bod2y: commentBody,
+      body: commentBody,
       username: loggedInUser.username
     })
     .then((response) => {

@@ -34,7 +34,6 @@ function App() {
       setArticlesLoaded(true)
     })
     .catch((err)=>{
-      console.log(err.message)
     })
   }, [articleChanged])
 

@@ -26,7 +26,7 @@ const ArticlePage = (props) => {
       setArticleLoaded(true)
     })
     .catch((err) => {
-      console.log(err.message)
+      window.alert(err)
     })
 
     newsApi.get(`/articles/${article_id}/comments`)
@@ -35,7 +35,8 @@ const ArticlePage = (props) => {
       setCommentsLoaded(true)
     })
     .catch((err) => {
-      console.log(err.message)
+      window.alert(err)
+
     })
   }, [commentWasPosted])
   
