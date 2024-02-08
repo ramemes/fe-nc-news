@@ -3,7 +3,7 @@ import ArticleCard from "./ArticleCard"
 
 const ArticleList = (props) => {
     const {articles} = props
-    
+
     return (
         <div className="article-list">
             {articles.map((article) => {

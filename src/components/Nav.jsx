@@ -12,7 +12,6 @@ const Nav = () => {
     return (
         <nav className="nav-bar">
             <Link className="nav-link" to="/">Home</Link>
-            <Link className="nav-link"  to="/articles">Articles</Link>
             {loggedInUser ? 
                 <Link  to="/profile">
                     <div className="nav-user">

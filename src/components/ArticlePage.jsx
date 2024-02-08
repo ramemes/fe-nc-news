@@ -5,18 +5,23 @@ import newsApi from '../utils/api';
 import CommentList from './CommentList';
 import Article from './Article';
 
+import CommentAdder from './CommentAdder';
 
-const ArticlePage = () => {
+const ArticlePage = (props) => {
+  const {setArticledChanged} = props
   const {article_id} = useParams();
+
   const [article, setArticle] = useState({})
   const [comments, setComments] = useState([])
+
   const [articleLoaded, setArticleLoaded] = useState(false)
   const [commentsLoaded, setCommentsLoaded] = useState(false)
+
+  const [commentWasPosted, setCommentWasPosted] = useState(false)
 
   useEffect(() => {
     newsApi.get(`/articles/${article_id}`)
     .then(({data}) => {
-      console.log(data)
       setArticle(data.article)
       setArticleLoaded(true)
     })
@@ -32,22 +37,26 @@ const ArticlePage = () => {
     .catch((err) => {
       console.log(err.message)
     })
-
-  }, [])
+  }, [commentWasPosted])
+  
 
   return (
     <>
-      <Link to="/articles">Back to articles</Link>
       {
         articleLoaded ? 
           <div className="article">
-            <Article article={article}/>
+            <Article 
+              setArticledChanged={setArticledChanged} 
+              article={article}
+              />
+            
           </div> 
           : 
           <p>
               Loading Article
           </p>
       }
+      <CommentAdder setCommentWasPosted={setCommentWasPosted} article_id={article_id}/>
       {commentsLoaded ? <CommentList comments={comments}/> : null} 
     </>
   )
