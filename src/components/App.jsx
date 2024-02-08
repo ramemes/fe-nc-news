@@ -7,6 +7,7 @@ import newsApi from '../utils/api';
 import { UserContext } from '../contexts/UserContext';
 import { ThemeContext } from '../contexts/ThemeContext';
 
+
 import Nav from './Nav';
 
 import SearchBar from './SearchBar';

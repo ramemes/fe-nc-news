@@ -11,11 +11,11 @@ import { UserProvider } from './contexts/UserContext.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider>
-      <UserProvider>
+        <UserProvider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
-      </UserProvider>
+        </UserProvider>
     </ThemeProvider>
   </React.StrictMode>
 

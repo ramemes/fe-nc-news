@@ -14,7 +14,7 @@ export const UserProvider =({children}) => {
 
 
     return (
-        <UserContext.Provider value = {{loggedInUser, setLoggedInUser, defaultImageUrl}}>
+        <UserContext.Provider value={{loggedInUser, setLoggedInUser, defaultImageUrl}}>
             { children }
         </UserContext.Provider>
     )

@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import { Link, useParams } from 'react-router-dom'
 import newsApi from '../utils/api';
 
@@ -6,6 +6,7 @@ import CommentList from './CommentList';
 import Article from './Article';
 
 import CommentAdder from './CommentAdder';
+
 
 const ArticlePage = (props) => {
   const {setArticledChanged} = props
@@ -17,7 +18,9 @@ const ArticlePage = (props) => {
   const [articleLoaded, setArticleLoaded] = useState(false)
   const [commentsLoaded, setCommentsLoaded] = useState(false)
 
-  const [commentWasPosted, setCommentWasPosted] = useState(false)
+  const [commentsWereChanged, setCommentsWereChanged] = useState(false)
+
+  const commentRef = useRef(null);
 
   useEffect(() => {
     newsApi.get(`/articles/${article_id}`)
@@ -37,27 +40,33 @@ const ArticlePage = (props) => {
     .catch((err) => {
       console.log(err.message)
     })
-  }, [commentWasPosted])
+  }, [commentsWereChanged])
   
 
   return (
     <>
       {
         articleLoaded ? 
+        <>
           <div className="article">
             <Article 
+              commentRef={commentRef}
               setArticledChanged={setArticledChanged} 
               article={article}
               />
-            
           </div> 
-          : 
-          <p>
-              Loading Article
-          </p>
+
+          <span ref={commentRef} ></span>
+          <CommentAdder setCommentsWereChanged={setCommentsWereChanged} article_id={article_id}/>
+          {commentsLoaded ? <CommentList 
+            setCommentsWereChanged={setCommentsWereChanged} 
+            comments={comments}/> : null} 
+        </>
+        : 
+        <p>
+          Loading Article
+        </p>
       }
-      <CommentAdder setCommentWasPosted={setCommentWasPosted} article_id={article_id}/>
-      {commentsLoaded ? <CommentList comments={comments}/> : null} 
     </>
   )
 }
