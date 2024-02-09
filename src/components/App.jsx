@@ -18,26 +18,18 @@ import ArticleList from './ArticleList';
 import ArticlePage from './ArticlePage';
 import HomePage from './HomePage';
 
+import BasicAlert from "./BasicAlert";
 
 function App() {
 
-  const [articles, setArticles] = useState([])
-  const [articlesLoaded, setArticlesLoaded] = useState(false)
-  const [articleChanged, setArticledChanged] = useState(false)
   const {loggedInUser, setLoggedInUser} = useContext(UserContext)
   const {darkMode, setDarkMode} = useContext(ThemeContext) 
 
+  const [articleChanged, setArticledChanged] = useState(false)
+  const [topics, setTopics] = useState([])
+
+
   
-  useEffect(() => {
-    newsApi(`/articles`)
-    .then(({data}) => {
-      setArticles(data.articles)
-      setArticlesLoaded(true)
-    })
-    .catch((err)=>{
-      console.log(err.message)
-    })
-  }, [articleChanged])
 
   return (
     <>
@@ -46,16 +38,20 @@ function App() {
 
         <Route path='/' element={
           <>
-            <SearchBar />
-            {articlesLoaded ? <ArticleList articles={articles}/> : 
-            <p>
-              Loading Articles
-            </p>}
+            <ArticleList articleChanged={articleChanged} setArticledChanged={setArticledChanged} topics={topics}/>
           </>
         }/>
+
+
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/login' element={<Login/>}/>
-        <Route path='/:article_id' element={<ArticlePage setArticledChanged={setArticledChanged}/>}/>
+        <Route 
+        path='/:article_id' 
+        element={
+          <ArticlePage 
+            setArticledChanged={setArticledChanged}
+          />
+        }/>
         
       </Routes>
 
@@ -64,4 +60,3 @@ function App() {
 }
 
 export default App
-

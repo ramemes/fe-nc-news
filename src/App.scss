@@ -18,6 +18,16 @@ body {
     background-color: rgb(245, 245, 245);
 
 }
+.basic-alert{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+}
 
 .nav-bar{
     display: flex;
