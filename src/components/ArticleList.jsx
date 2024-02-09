@@ -37,6 +37,8 @@ const ArticleList = (props) => {
             searchStr += `?topic=${topicQuery}`
         }
 
+
+
         newsApi(searchStr)
         .then(({data}) => {
           setArticles(data.articles)
