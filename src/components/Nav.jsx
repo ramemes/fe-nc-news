@@ -15,6 +15,7 @@ const Nav = () => {
             {loggedInUser ? 
                 <Link  to="/profile">
                     <div className="nav-user">
+                    <p>{loggedInUser.username}</p>
                         <div className="nav-user-avatar-cropper">
                             <img className="nav-user-avatar" src={loggedInUser.avatar_url}/>
                         </div>

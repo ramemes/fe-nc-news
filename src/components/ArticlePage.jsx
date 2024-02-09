@@ -58,9 +58,11 @@ const ArticlePage = (props) => {
 
           <span ref={commentRef} ></span>
           <CommentAdder setCommentsWereChanged={setCommentsWereChanged} article_id={article_id}/>
+
           {commentsLoaded ? <CommentList 
             setCommentsWereChanged={setCommentsWereChanged} 
-            comments={comments}/> : null} 
+            comments={comments}
+            /> : null} 
         </>
         : 
         <p>

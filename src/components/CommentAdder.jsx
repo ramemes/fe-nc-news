@@ -6,6 +6,8 @@ import { UserContext } from '../contexts/UserContext';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
+import BasicAlert from "./BasicAlert";
+
 
 import newsApi from '../utils/api';
 
@@ -14,10 +16,12 @@ const CommentAdder = (props) => {
 
   const {loggedInUser} =  useContext(UserContext)
 
-
   const [commentBody, setCommentBody] = useState('')
   const [commentIsPosting, setCommentIsPosting] = useState(false)
   
+  const [alertStatus, setAlertStatus] = useState(false)
+  const [alertSeverity, setAlertSeverity] = useState("")
+  const [alertContent, setAlertContent] = useState("")
 
   const postComment = (e) => {
     e.preventDefault()
@@ -28,28 +32,47 @@ const CommentAdder = (props) => {
         username: loggedInUser.username
       })
       .then((response) => {
+        setAlertSeverity("success")
+        setAlertContent("comment posted successfully")
+        setAlertStatus(true)
+
+        setCommentBody("")
+
         setCommentsWereChanged((commentsWereChanged) => !commentsWereChanged)
-        setTimeout(()=>{setCommentIsPosting(false)},"700")
+        setCommentIsPosting(false)
+
+        setTimeout(()=>{
+          setAlertStatus(false)
+        },1300)
       })
       .catch((err) => {
-        window.alert(`comment could not be posted, ${err}`)
+        setAlertSeverity("error")
+        setAlertContent("couldn't post comment")
+        setAlertStatus(true)
+        
         setCommentIsPosting(false)
+
+        setTimeout(()=>{
+          setAlertStatus(false)
+        },1300)
   
       })
     } else {
-      window.alert("cannot post empty comment")
+      setAlertSeverity("warning")
+      setAlertContent("cannot send empty comment")
+      setAlertStatus(true)
+      setTimeout(()=>{
+        setAlertStatus(false)
+      },1300)
     }
-
-
   }
-
-  return (
+  return ( 
     <Box
-      component="form"
-      className="comment-adder"
-      noValidate
-      autoComplete="off"
-    >
+        component="form"
+        className="comment-adder"
+        noValidate
+        autoComplete="off"
+      >
         <TextField
           value={commentBody}
           onChange={(e) => setCommentBody(e.target.value)}
@@ -62,8 +85,14 @@ const CommentAdder = (props) => {
         <Button className="comment-add-button" onClick={postComment} disabled={commentIsPosting}>
           {commentIsPosting ? "Posting Comment" : "Post Comment"}
         </Button>
+        {alertStatus ? <div className="basic-alert">
+        <BasicAlert severity={alertSeverity} content={alertContent}/>
+        </div> : null}
+        
     </Box>
   )
+
+  
 }
 
 

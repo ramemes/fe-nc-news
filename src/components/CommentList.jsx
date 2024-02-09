@@ -9,9 +9,10 @@ const CommentList = (props) => {
         {comments.map((comment) => {
           return (  
             <CommentCard 
-            setCommentsWereChanged={setCommentsWereChanged} 
-            key={comment.comment_id} 
-            comment={comment}/>
+              setCommentsWereChanged={setCommentsWereChanged} 
+              key={comment.comment_id} 
+              comment={comment}
+            />
           )
         })}
       </div>
