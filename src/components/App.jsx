@@ -6,7 +6,7 @@ import newsApi from '../utils/api';
 
 import { UserContext } from '../contexts/UserContext';
 import { ThemeContext } from '../contexts/ThemeContext';
-
+import { AlertContext } from '../contexts/AlertContext';
 
 import Nav from './Nav';
 
@@ -19,28 +19,28 @@ import ArticlePage from './ArticlePage';
 import HomePage from './HomePage';
 
 import BasicAlert from "./BasicAlert";
+import AlertList from './AlertList';
 
 function App() {
 
   const {loggedInUser, setLoggedInUser} = useContext(UserContext)
-  const {darkMode, setDarkMode} = useContext(ThemeContext) 
-
+  const {darkMode, setDarkMode} = useContext(ThemeContext)
+  const {alertStatus}  = useContext(AlertContext)
   const [articleChanged, setArticledChanged] = useState(false)
-  const [topics, setTopics] = useState([])
 
-
-  
 
   return (
     <>
       <Nav/>
+      {/* {alertStatus ? <BasicAlert /> : null} */}
+      <AlertList />
       <Routes>
-
         <Route path='/' element={
           <>
-            <ArticleList articleChanged={articleChanged} setArticledChanged={setArticledChanged} topics={topics}/>
+            <ArticleList articleChanged={articleChanged} setArticledChanged={setArticledChanged}/>
           </>
         }/>
+
 
 
         <Route path='/profile' element={<Profile/>}/>
