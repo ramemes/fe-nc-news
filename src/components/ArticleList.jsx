@@ -72,7 +72,7 @@ const ArticleList = (props) => {
 
     return articlesLoaded ? (
         <div className="article-list">
-        <form onSubmit={handleSubmit}>
+        <form className="search-form" onSubmit={handleSubmit}>
             <label htmlFor="topic-selector"> Choose a topic</label>
             <select 
                 id="topic-selector"

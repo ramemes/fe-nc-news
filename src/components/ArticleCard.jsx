@@ -20,8 +20,8 @@ const ArticleCard = (props) => {
     }
 
     return (
-        <div onClick={openArticle} className="card-div">
-            <Card className="card" sx={{ maxWidth: 700 }}>
+        <div  className="card-div">
+            <Card onClick={openArticle} className="card" sx={{ maxWidth: 700 }}>
             <CardActionArea>
                 <CardMedia
                 className="card-media"
