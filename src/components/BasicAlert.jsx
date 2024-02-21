@@ -5,12 +5,14 @@ import Stack from '@mui/material/Stack';
 
 
 const BasicAlert = (props) => {
-  const {severity, content} = props
+  const {alertSeverity, alertContent} = props
+
+
   return (
-    <div className="basic-alert">
-    <Stack spacing={2}>
-      <Alert severity={severity}>{content}</Alert>
-    </Stack>
+    <div className="basic-alert fade">
+      <Stack spacing={2}>
+        <Alert severity={alertSeverity}>{alertContent}</Alert>
+      </Stack>
     </div>
   );
 }

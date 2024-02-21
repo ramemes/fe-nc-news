@@ -10,6 +10,7 @@ import BasicAlert from "./BasicAlert";
 
 import {useContext, useState} from "react"
 import { UserContext } from "../contexts/UserContext";
+import { AlertContext } from "../contexts/AlertContext";
 
 import newsApi from "../utils/api";
 
@@ -17,41 +18,45 @@ const CommentCard = (props) => {
     const {comment, setCommentsWereChanged} = props
     const {loggedInUser, setLoggedInUser} = useContext(UserContext)
     const [commentIsDeleting, setCommentIsDeleting] = useState(false)
-    const [alertStatus, setAlertStatus] = useState(false)
-    const [alertSeverity, setAlertSeverity] = useState("")
-    const [alertContent, setAlertContent] = useState("")
-    
+    const {setAlerts, setAlertsWereChanged}  = useContext(AlertContext)
+
     const deleteComment = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         if (comment.author === loggedInUser.username) {
             setCommentIsDeleting(true)
             newsApi.delete(`/comments/${comment.comment_id}`)
             .then(()=>{
-                setAlertStatus(true)
-                setAlertSeverity("success")
-                setAlertContent("comment deleted successfully")
+                setAlerts((alerts) => {
+                    return [...alerts, {
+                        severity: "success",
+                        content: "comment deleted successfully"
+                    }]
+                })
+                setAlertsWereChanged((x) => !x)
                 setTimeout(()=>{
                     setCommentsWereChanged((commentWasChanged) => !commentWasChanged)
-                    setCommentIsDeleting(false)
-                    setAlertStatus(false)
                 },700) 
-                
 
             })
             .catch((err) => {
-                setAlertStatus(true)
-                setAlertSeverity("error")
-                setAlertContent("couldn't delete comment")
+                setAlerts((alerts) => {
+                    return [...alerts, {
+                        severity: "error",
+                        content: "couldn't delete comment"
+                    }]
+                })
+                setAlertsWereChanged((x) => !x)    
+            })
+            .finally(()=>{
                 setTimeout(()=>{
                     setCommentIsDeleting(false)
-                    setAlertStatus(false)
                 },700) 
             })
         }
     }
     return (
         <div className="card-div">
-        {!alertStatus ? <Card className="card" sx={{ maxWidth: 700 }}>
+        <Card className="card" sx={{ maxWidth: 700 }}>
                 <CardContent className="card-content">
                     <Typography className="comment-body" variant="body2" color="text.secondary">
                         {comment.body}
@@ -81,9 +86,6 @@ const CommentCard = (props) => {
                     </div>
                 </CardContent>
             </Card>
-            : 
-                <BasicAlert  severity={alertSeverity} content={alertContent}/>
-        }
         </div>
     )
 

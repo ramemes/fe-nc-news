@@ -41,7 +41,10 @@ const ArticleCard = (props) => {
                     Topic: {article.topic}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    Votes: {article.votes}
+                    Votes: {article.votes} 
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    Comments: {article.comment_count}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     {format(article.created_at, "Mo MMM, yyyy")}

@@ -1,17 +1,18 @@
 import ArticleCard from "./ArticleCard"
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useParams, useNavigate } from 'react-router-dom';
 
 import newsApi from "../utils/api";
-import { Search } from "@mui/icons-material";
 
 const ArticleList = (props) => {
     const {setArticleChanged,articleChanged} = props
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams()
+
     const topicQuery = searchParams.get("topic")
-    const sortByQuery = searchParams.get("sort_by")
+    const sortQuery = searchParams.get("sort_by")
+
     const orderQuery = searchParams.get("order")
 
 
@@ -20,24 +21,30 @@ const ArticleList = (props) => {
     const [articlesLoaded, setArticlesLoaded] = useState(false)
 
     const [topicChoice, setTopicChoice] = useState(topicQuery);
-
+    const [sortChoice, setSortChoice] = useState(sortQuery);
+    const [orderChoice, setOrderChoice] = useState(orderQuery);
 
 
     useEffect(() => {
-        let searchStr = `/articles`
+        let searchStr = `/articles/`
         newsApi(`/topics`)
         .then(({data}) => {
           setTopics(data.topics.map((topic) => topic.slug))
         })
         .catch((err)=>{
-          console.log(err.message)
+          console.log(err.response.data.msg)
         })
-        
-        if (topicQuery && topicQuery !== "") {
+        if (topicQuery) {
             searchStr += `?topic=${topicQuery}`
         }
-
-
+        if (sortQuery) {
+            searchStr += searchStr.includes("?") ?  `&` : `?`
+            searchStr += `sort_by=${sortQuery}`
+        }
+        if (orderQuery) {
+            searchStr += searchStr.includes("?") ?  `&` : `?`
+            searchStr += `order=${orderQuery}`
+        }
 
         newsApi(searchStr)
         .then(({data}) => {
@@ -45,18 +52,20 @@ const ArticleList = (props) => {
           setArticlesLoaded(true)
         })
         .catch((err)=>{
-          console.log(err.message)
+          console.log(err.response.data.msg)
         })
         
-      }, [topicQuery])
+      }, [searchParams])
 
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        const newParams = new URLSearchParams(searchParams);
-        newParams.set("topic",topicChoice)
+        const newParams = new URLSearchParams(searchParams)
+        topicChoice ? newParams.set('topic',topicChoice) : newParams.delete('topic')
+        sortChoice ? newParams.set('sort_by',sortChoice) : newParams.delete('sort_by')
+        orderChoice ? newParams.set('order',orderChoice) : newParams.delete('order')
+
         setSearchParams(newParams)
-        
     }
      
 
@@ -70,10 +79,38 @@ const ArticleList = (props) => {
                 value={topicChoice}
                 onChange={(e) => setTopicChoice(e.target.value)}
             >
-                <option  key="no-filter" value="">No filter</option>
+                <option  key="no-topic-filter" value="">No filter</option>
                 
-                {topics.map((topic) => {
-                    return  <option key={topic}>{topic}</option>
+                {topics.map((topicOption) => {
+                    return  <option key={topicOption}>{topicOption}</option>
+                })}
+
+            </select>
+
+            <label htmlFor="sortby-selector">Sort by</label>
+            <select 
+                id="sortby-selector"
+                value={sortChoice}
+                onChange={(e) => setSortChoice(e.target.value)}
+            >
+                <option  key="no-sort-filter" value="">No filter</option>
+                
+                {['created_at','comment_count','votes'].map((sortOption) => {
+                    return  <option key={sortOption}>{sortOption}</option>
+                })}
+
+            </select>
+
+            <label htmlFor="order-selector">Order</label>
+            <select 
+                id="order-selector"
+                value={orderChoice}
+                onChange={(e) => setOrderChoice(e.target.value)}
+            >
+                <option  key="no-order-filter" value="">No filter</option>
+                
+                {['asc','desc'].map((orderOption) => {
+                    return  <option key={orderOption}>{orderOption}</option>
                 })}
 
             </select>
