@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const newsApi = axios.create({
-    baseURL: 'https://nc-news-859i.onrender.com'
+    baseURL: 'https://nc-news-859i.onrender.com/api'
 })
 
 // const articlesApi = axios.create({
