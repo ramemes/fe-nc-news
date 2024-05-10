@@ -14,6 +14,7 @@ import SearchBar from './SearchBar';
 import Profile from './Profile';
 import Login from './Login';
 import ArticleList from './ArticleList';
+import Post from './Post';
 
 import ArticlePage from './ArticlePage';
 import HomePage from './HomePage';
@@ -27,22 +28,38 @@ function App() {
   const {darkMode, setDarkMode} = useContext(ThemeContext)
   const {alertStatus}  = useContext(AlertContext)
   const [articleChanged, setArticledChanged] = useState(false)
+  const [topics, setTopics] = useState([])
 
+  useEffect(() => {
+    newsApi(`/topics`)
+    .then(({data}) => {
+      setTopics(data.topics.map((topic) => topic.slug))
+    })
+    .catch((err)=>{
+      console.log(err.response.data.msg)
+    })
+    0}, [])
 
   return (
     <>
       <Nav/>
       {/* {alertStatus ? <BasicAlert /> : null} */}
       <AlertList />
+      <div className="main-div">
       <Routes>
         <Route path='/' element={
           <>
-            <ArticleList articleChanged={articleChanged} setArticledChanged={setArticledChanged}/>
+            { topics ? <ArticleList 
+            articleChanged={articleChanged} 
+            setArticledChanged={setArticledChanged}
+            topics={topics} 
+            setTopics={setTopics}
+            /> : null}
           </>
         }/>
 
 
-
+        <Route path='/post' element={<Post topics={topics}/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route 
@@ -54,7 +71,7 @@ function App() {
         }/>
         
       </Routes>
-
+    </div>
     </>
   )
 }

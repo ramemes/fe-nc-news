@@ -6,34 +6,33 @@ import { useSearchParams, useParams, useNavigate } from 'react-router-dom';
 import newsApi from "../utils/api";
 
 const ArticleList = (props) => {
-    const {setArticleChanged,articleChanged} = props
 
+    const {setArticleChanged,articleChanged,topics, setTopics} = props
     const [searchParams, setSearchParams] = useSearchParams()
 
     const topicQuery = searchParams.get("topic")
     const sortQuery = searchParams.get("sort_by")
-
     const orderQuery = searchParams.get("order")
 
 
     const [articles, setArticles] = useState([])
-    const [topics, setTopics] = useState([])
+    
     const [articlesLoaded, setArticlesLoaded] = useState(false)
 
-    const [topicChoice, setTopicChoice] = useState(topicQuery);
-    const [sortChoice, setSortChoice] = useState(sortQuery);
-    const [orderChoice, setOrderChoice] = useState(orderQuery);
+    const [topicChoice, setTopicChoice] = useState(topicQuery || "");
+    const [sortChoice, setSortChoice] = useState(sortQuery || "");
+    const [orderChoice, setOrderChoice] = useState(orderQuery || "");
 
 
     useEffect(() => {
         let searchStr = `/articles/`
-        newsApi(`/topics`)
-        .then(({data}) => {
-          setTopics(data.topics.map((topic) => topic.slug))
-        })
-        .catch((err)=>{
-          console.log(err.response.data.msg)
-        })
+        // newsApi(`/topics`)
+        // .then(({data}) => {
+        //   setTopics(data.topics.map((topic) => topic.slug))
+        // })
+        // .catch((err)=>{
+        //   console.log(err.response.data.msg)
+        // })
         if (topicQuery) {
             searchStr += `?topic=${topicQuery}`
         }
@@ -71,59 +70,63 @@ const ArticleList = (props) => {
 
 
     return articlesLoaded ? (
-        <div className="article-list">
-        <form className="search-form" onSubmit={handleSubmit}>
-            <label htmlFor="topic-selector"> Choose a topic</label>
-            <select 
-                id="topic-selector"
-                value={topicChoice}
-                onChange={(e) => setTopicChoice(e.target.value)}
-            >
-                <option  key="no-topic-filter" value="">No filter</option>
-                
-                {topics.map((topicOption) => {
-                    return  <option key={topicOption}>{topicOption}</option>
+        <>
+            <form className="search-form" onSubmit={handleSubmit}>
+                <label htmlFor="topic-selector"> Choose a topic</label>
+                <select 
+                    id="topic-selector"
+                    className="filter-selector"
+                    value={topicChoice}
+                    onChange={(e) => setTopicChoice(e.target.value)}
+                >
+                    <option  key="no-topic-filter" value="">No filter</option>
+                    
+                    {topics.map((topicOption) => {
+                        return  <option key={topicOption}>{topicOption}</option>
+                    })}
+
+                </select>
+
+                <label htmlFor="sortby-selector">Sort by</label>
+                <select 
+                    id="sortby-selector"
+                    className="filter-selector"
+                    value={sortChoice}
+                    onChange={(e) => setSortChoice(e.target.value)}
+                >
+                    <option  key="no-sort-filter" value="">No filter</option>
+                    
+                    {['created_at','comment_count','votes'].map((sortOption) => {
+                        return  <option key={sortOption}>{sortOption}</option>
+                    })}
+
+                </select>
+
+                <label htmlFor="order-selector">Order</label>
+                <select 
+                    id="order-selector"
+                    className="filter-selector"
+                    value={orderChoice}
+                    onChange={(e) => setOrderChoice(e.target.value)}
+                >
+                    <option  key="no-order-filter" value="">No filter</option>
+                    
+                    {['asc','desc'].map((orderOption) => {
+                        return  <option key={orderOption}>{orderOption}</option>
+                    })}
+
+                </select>
+
+                <button className="search-articles"> Search Articles </button>
+            </form>
+            <div className="article-list">
+                {articles.map((article) => {
+                    return (  
+                        <ArticleCard key={article.article_id} article={article}/>
+                    )
                 })}
-
-            </select>
-
-            <label htmlFor="sortby-selector">Sort by</label>
-            <select 
-                id="sortby-selector"
-                value={sortChoice}
-                onChange={(e) => setSortChoice(e.target.value)}
-            >
-                <option  key="no-sort-filter" value="">No filter</option>
-                
-                {['created_at','comment_count','votes'].map((sortOption) => {
-                    return  <option key={sortOption}>{sortOption}</option>
-                })}
-
-            </select>
-
-            <label htmlFor="order-selector">Order</label>
-            <select 
-                id="order-selector"
-                value={orderChoice}
-                onChange={(e) => setOrderChoice(e.target.value)}
-            >
-                <option  key="no-order-filter" value="">No filter</option>
-                
-                {['asc','desc'].map((orderOption) => {
-                    return  <option key={orderOption}>{orderOption}</option>
-                })}
-
-            </select>
-
-            <button> Search Articles </button>
-        </form>
-        
-            {articles.map((article) => {
-                return (  
-                    <ArticleCard key={article.article_id} article={article}/>
-                )
-            })}
-    </div>
+            </div>
+        </>
     ) : (<p>Articles Loading</p>)
 }   
 

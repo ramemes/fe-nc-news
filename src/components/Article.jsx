@@ -16,7 +16,7 @@ const Article = (props) => {
   const {article, setArticledChanged, commentRef} = props
   const {loggedInUser, setLoggedInUser} = useContext(UserContext)
   const [votes, setVotes] = useState(article.votes)
-  const voteKey = `alreadyVoted${article.article_id}${loggedInUser.username}`
+  const voteKey = `alreadyVoted${article.article_id}`
   const [alreadyVoted, setAlreadyVoted] = useState(!!localStorage.getItem(voteKey))
   
   

@@ -11,24 +11,28 @@ const Nav = () => {
 
     return (
         <nav className="nav-bar">
-            <Link className="nav-link" to="/">Home</Link>
+
+            <div className="nav-left">
+                <Link className="nav-link" to="/">Home</Link>
+                <Link className="nav-link" to="/post">Post</Link>
+            </div>
+
+            <div className="nav-right">
             {loggedInUser ? 
                 <Link  to="/profile">
+                    
                     <div className="nav-user">
-                    <p>{loggedInUser.username}</p>
+                    {loggedInUser.username}
                         <div className="nav-user-avatar-cropper">
                             <img className="nav-user-avatar" src={loggedInUser.avatar_url}/>
                         </div>
                     </div>
                 </Link> 
                 : 
-                <Link className="nav-link"  to="/login" >Login</Link>
+                <Link className="nav-link" to="/login" >Login</Link>
             }
-            
-            
+            </div>
 
-
-            
 
         </nav>
 

@@ -73,16 +73,20 @@ const CommentCard = (props) => {
                                 {format(comment.created_at, "Mo MMM, yyyy")}
                             </Typography>
                         </div>
-                        <Button 
-                        onClick={deleteComment} 
-                        className="comment-delete" 
-                        disabled={commentIsDeleting}
-                        sx={{color: "red"}}
-                        >    
-                        {comment.author === loggedInUser.username ?
-                            commentIsDeleting ? "Deleting Comment" : "Delete Comment"
-                        : null }
+                        {loggedInUser ? 
+                            <Button 
+                            onClick={deleteComment} 
+                            className="comment-delete" 
+                            disabled={commentIsDeleting}
+                            sx={{color: "red"}}
+                            >    
+                            {comment.author === loggedInUser.username ?
+                                commentIsDeleting ? "Deleting Comment" : "Delete Comment"
+                            : null }
                         </Button>
+                        : 
+                            null}
+                        
                     </div>
                 </CardContent>
             </Card>
